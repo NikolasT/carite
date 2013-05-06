@@ -19,9 +19,9 @@ a
 }
 #header
 {
-    background-image: url('images/header_bg.png');
+    background: #000;
     background-repeat: no-repeat;
-    width: 1600px;
+    width: 100%;
     height: 138px;
     margin:0 auto;
     position:relative;
@@ -252,9 +252,9 @@ ul.bullet li
 
 @media only screen and (max-width: 1599px) {
   /* rules that only apply for canvases narrower than 1600px */
-  #header
+  /*#header
   {
       width:960px;
       background-position:-320px 0px;
-  }
+  }*/
 }
