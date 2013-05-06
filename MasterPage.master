@@ -1,0 +1,41 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" EnableTheming="true"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <asp:ContentPlaceHolder id="head" runat="server"></asp:ContentPlaceHolder>
+    <!--[if gte IE 9]>
+      <style type="text/css">
+        .gradient {
+           filter: none;
+        }
+      </style>
+    <![endif]-->
+</head>
+<body>
+    <div id="main_wrapper">
+        <div id="header">
+            <div id="header_content">            
+                <img src="App_Themes/main/images/logo.png" alt="Carite" />
+                <h1>
+                    <strong>Business Card</strong> Ordering
+                </h1>
+            </div>
+        </div>
+        <div id="content_wrapper">
+            <div id="content_header">
+                <asp:ContentPlaceHolder id="ContentPlaceHolderHeader" runat="server"></asp:ContentPlaceHolder>            
+            </div>
+            <div id="content_section">
+                <asp:ContentPlaceHolder id="ContentPlaceHolderSection" runat="server"></asp:ContentPlaceHolder>
+            </div>
+        </div>
+        <div id="footer_wrapper">
+            <div id="footer">
+                &copy; 2013 Carite All Rights Reserved
+            </div>
+        </div>
+    </div>
+</body>
+</html>
