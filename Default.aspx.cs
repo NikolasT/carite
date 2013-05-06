@@ -28,29 +28,24 @@ public partial class _Default : System.Web.UI.Page
         if (IsValid)
         {
             HttpContext.Current.Session["order_id"] = String.Format("{0:d9}", (DateTime.Now.Ticks / 10000000));
-
-            var fromAddress = new MailAddress("carite@graphinity.com", "Carite");
-            //var toAddress = new MailAddress("support@graphinity.com", "Support");            
-            var toAddress = new MailAddress("nikolas.toloknov@gmail.com", "Support");
-            const string fromPassword = "fromPassword";
-            const string subject = "Subject";
+            
             string template =
             @"
-            Order details, 
-            Ordered By: ##ORDERED_BY##
-            Email: ##DETAILS_EMAIL##
-            Quantity: ##QUANTITY##
-            Ship To: ##SHIP_TO##
-
-            Card front information,
-            Name: ##NAME##
-            Email: ##EMAIL##
-            Phone: ##PHONE##
-            Fax: ##FAX##
-            Address: ##ADDRESS##
-            City: ##CITY##
-            State: ##STATE##
-            Zip: ##ZIP##
+            <strong>Order details</strong>,<br/> 
+            Ordered By: ##ORDERED_BY##<br/>
+            Email: ##DETAILS_EMAIL##<br/>
+            Quantity: ##QUANTITY##<br/>
+            Ship To: ##SHIP_TO##<br/>
+            <br/>    
+            <strong>Card front information</strong>,<br/>
+            Name: ##NAME##<br/>
+            Email: ##EMAIL##<br/>
+            Phone: ##PHONE##<br/>
+            Fax: ##FAX##<br/>
+            Address: ##ADDRESS##<br/>
+            City: ##CITY##<br/>
+            State: ##STATE##<br/>
+            Zip: ##ZIP##<br/>
             OrderID: ##ORDER_ID##";             
 
             string quantity = "";
@@ -75,26 +70,30 @@ public partial class _Default : System.Web.UI.Page
                 .Replace("##ZIP##", zip.Text)
                 .Replace("##ORDER_ID##", HttpContext.Current.Session["order_id"].ToString());
 
-            var smtp = new SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = false,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = true,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
-                Timeout = 20000
-            };
-            using (var message = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = subject,
-                Body = body
-            })
-            {
-                smtp.Send(message);
-            }
+            this.SendEmail("support@graphinity.com", "Carite Order", body);
 
             Response.Redirect("thank_you.aspx", true);
         }
+    }
+
+    public void SendEmail(string address, string subject, string message)
+    {
+        string email = "FROM_EMAIL";
+        string password = "FROM_PASSWORD";
+
+        var loginInfo = new NetworkCredential(email, password);
+        var msg = new MailMessage();
+        var smtpClient = new SmtpClient("smtp.gmail.com", 587); // SMTP SETTINGS
+
+        msg.From = new MailAddress(email);
+        msg.To.Add(new MailAddress(address));
+        msg.Subject = subject;
+        msg.Body = message;
+        msg.IsBodyHtml = true;
+
+        smtpClient.EnableSsl = true;
+        smtpClient.UseDefaultCredentials = false;
+        smtpClient.Credentials = loginInfo;
+        smtpClient.Send(msg);
     }
 }
