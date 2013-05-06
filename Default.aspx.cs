@@ -81,8 +81,9 @@ public partial class _Default : System.Web.UI.Page
                 Port = 587,
                 EnableSsl = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                UseDefaultCredentials = true,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                Timeout = 20000
             };
             using (var message = new MailMessage(fromAddress, toAddress)
             {
